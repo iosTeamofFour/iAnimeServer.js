@@ -394,11 +394,11 @@
         "signature": "0b0d9fddfee0c0a09dfd5c73fa8ca86246c87d68c065ac1e08f5074cdbeccbc4"
       },
       "./src/utils/common.ts": {
-        "version": "311af5286b2ecd83f7cd631a8aa11957fbf6833166d189313f608ba408052d0f",
-        "signature": "5ff0c8e1c76d19dd1980ec8327505db05b1b4712d575c18d111ebe75c90b171f"
+        "version": "737f5d94cc07e61a4b005c0bab2dd463e0338dbab1393f7bdb3f16e322fd01e6",
+        "signature": "07b899c6d678918269dc965fbfa68c4a526c64e3a0f839a55cde60ad6d9e3f3e"
       },
       "./src/auth.ts": {
-        "version": "40839e5705301882aac303421e7576ba13bfeefb3d327c56ea87930167072780",
+        "version": "f246795f30dd44a83f8d6f5bc6e3f68891a9796a40b2aaa8a365a5122723f2f6",
         "signature": "892efe520e66e617f6d19b7d95382c18bfc27dae6cf4dfc2e05a0c4ee6f01490"
       },
       "./src/utils/decorators/parametervalidatordecorator.ts": {
@@ -1042,7 +1042,7 @@
         "signature": "a176a1a05deaee2901e8acfd9e584f346fd3d5cae1cf2428983e78872b2c287e"
       },
       "./src/controller/usercontroller.ts": {
-        "version": "3dbe03582d0b6b91eb0d6c7c5ebccda327f9835118f008ff725b47d7734a1bc1",
+        "version": "50545d4767af48e2d4d9350981064a4d3470fcf13f68c4a4d905a94e38a315cc",
         "signature": "2e07017fa7c73ffaed8f9621c0e03d110c8347fe04b0a53face5c3c2c79c7657"
       },
       "./src/persistence/model/address.ts": {
@@ -5420,8 +5420,6 @@
       "./node_modules/@types/redis/ts3.1/index.d.ts",
       "./src/persistence/redisclientenhance.ts",
       "./src/persistence/redisconfig.ts",
-      "./src/utils/common.ts",
-      "./src/auth.ts",
       "./src/utils/decorators/parametervalidatordecorator.ts",
       "./node_modules/reflect-metadata/index.d.ts",
       "./src/utils/decorators/routerdecorator.ts",
@@ -5594,7 +5592,9 @@
       "./node_modules/@types/passport/index.d.ts",
       "./node_modules/@types/passport-strategy/index.d.ts",
       "./node_modules/@types/passport-jwt/index.d.ts",
-      "./src/controller/usercontroller.ts"
+      "./src/utils/common.ts",
+      "./src/controller/usercontroller.ts",
+      "./src/auth.ts"
     ]
   },
   "version": "3.7.2"

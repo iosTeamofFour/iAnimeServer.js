@@ -1,6 +1,11 @@
 import * as jwt from 'jsonwebtoken'
+
+export function ExtractJWTStringFromHeader(header : any) {
+  return header['authorization'].replace('Bearer ', '')
+}
+
 export function ExtractBearerFromHeader(header: any) {
-  const token = header['authorization'].replace('Bearer ', '')
+  const token = ExtractJWTStringFromHeader(header)
   return jwt.decode(token, { complete: true })
 }
 

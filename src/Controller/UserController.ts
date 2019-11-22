@@ -3,7 +3,7 @@ import { ParameterizedContext } from "koa";
 import { Required, ParameterType } from "../Utils/Decorators/ParameterValidatorDecorator";
 import * as UserService from '../Service/User/UserService'
 import Redis from '../Persistence/RedisConfig'
-import { GetUserIDFromToken } from "../Utils/Common";
+import { ExtractJWTStringFromHeader } from "../Utils/Common";
 @Controller("user")
 export default class UserController extends ControllerBase {
 
@@ -26,7 +26,7 @@ export default class UserController extends ControllerBase {
     @Get("/logout")
     @Authorize
     async Logout(ctx : ParameterizedContext) {
-        ctx.body = await Redis.PromiseSet(`${GetUserIDFromToken(ctx.header)}:Revoked`,ctx.header['authorization'],'EX', 60 * 60 * 24)
+        ctx.body = await Redis.PromiseSet(`${ExtractJWTStringFromHeader(ctx.header)}:Revoked`,"1",'EX', 60 * 60 * 24)
     }
 
     @Get("/secret")
