@@ -2,39 +2,76 @@ import AppConfig = require('../../../app.json')
 import * as _path from 'path'
 import * as fs from 'fs'
 
-const fsExist = (path : fs.PathLike) => {
+const fsExist = (path: fs.PathLike) => {
     return new Promise((resolve) => {
-        fs.exists(path,exist => resolve(exist))
+        fs.exists(path, exist => resolve(exist))
     })
 }
+const __BackgroundPlaceholder = _path.join(AppConfig.Statics.BackgroundPlaceholder);
 
-export const GetAvatarFilePath = (UserID: string) => _path.join(AppConfig.Statics.Avatar, UserID, 'avatar.png')
-export const GetBackgroundImageFilePath = (UserID: string) => _path.join(AppConfig.Statics.Background, UserID, 'background.png')
+const __AvatarPlaceholder = _path.join(AppConfig.Statics.AvatarPlaceholder)
 
-export const GetAvatarWriteFileStream = (UserID : string) => {
-    let fp = GetAvatarFilePath(UserID)
+export const GetAvatarFilePath = (UserID: string, ShouldDetectFolder?: boolean) => {
+    const folder = _path.join(AppConfig.Statics.Avatar, UserID)
+    const file = _path.join(folder, 'avatar.png')
+
+    if (ShouldDetectFolder && !fs.existsSync(folder)) {
+        fs.mkdirSync(folder)
+    }
+    return file
+}
+export const GetBackgroundImageFilePath = (UserID: string, ShouldDetectFolder?: boolean) => {
+    const folder = _path.join(AppConfig.Statics.Background, UserID)
+    const file = _path.join(folder, 'background.png')
+
+    if (ShouldDetectFolder && !fs.existsSync(folder)) {
+        fs.mkdirSync(folder)
+    }
+    return file
+}
+
+export const ClearAvatar = (UserID : string) => {
+    const Path = GetAvatarFilePath(UserID,false)
+    if(fs.existsSync(Path)) {
+        fs.unlinkSync(Path)
+    }
+}
+
+
+export const ClearBackground = (UserID : string) => {
+    const Path = GetBackgroundImageFilePath(UserID,false)
+    if(fs.existsSync(Path)) {
+        fs.unlinkSync(Path)
+    }
+}
+
+// ===== Write Stream Builder =====
+export const GetAvatarWriteFileStream = (UserID: string) => {
+    let fp = GetAvatarFilePath(UserID, true)
+    return fs.createWriteStream(fp)
+}
+export const GetBackgroundImageWriteFileStream = (UserID: string) => {
+    let fp = GetBackgroundImageFilePath(UserID, true)
     return fs.createWriteStream(fp)
 }
 
-export const GetAvatarReadFileStream = async (UserID : string) => {
+// ===== Read Stream Builder =====
+export const GetAvatarReadFileStream = async (UserID: string) => {
     let fp = GetAvatarFilePath(UserID)
-    return fsExist(fp).then(exist => {
-        if(exist) return fs.createReadStream(fp).on('error',console.error)
-        else return fs.createReadStream(_path.join(AppConfig.Statics.AvatarPlaceholder)).on('error',console.error)
-    })
+    return GetImageReadFileStream(fp, __AvatarPlaceholder)
 }
 
-
-export const GetBackgroundImageWriteFileStream = (UserID : string) => {
+export const GetBackgroundImageReadFileStream = async (UserID: string) => {
     let fp = GetBackgroundImageFilePath(UserID)
-    return fs.createWriteStream(fp)
+    return GetImageReadFileStream(fp, __BackgroundPlaceholder)
 }
 
-export const GetBackgroundImageReadFileStream = async (UserID : string) => {
-    let fp = GetBackgroundImageFilePath(UserID)
-    return fsExist(fp).then(exist => {
-        if(exist) return fs.createReadStream(fp).on('error',console.error)
-        else return fs.createReadStream(_path.join(AppConfig.Statics.BackgroundPlaceholder)).on('error',console.error)
+// ===== Common Image Stream Builder =====
+
+export const GetImageReadFileStream = (Path, Placeholder) => {
+    return fsExist(Path).then(exist => {
+        if (exist) return fs.createReadStream(Path).on('error', console.error)
+        else return fs.createReadStream(Placeholder).on('error', console.error)
     })
 }
 

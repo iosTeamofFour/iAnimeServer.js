@@ -7,6 +7,7 @@ import { ExtractJWTStringFromHeader, GetUserIDFromToken } from "../Utils/Common"
 import * as FileResolver from '../Service/Config/FileResolver'
 import AppConfig = require('../../app.json');
 import { ChangeableInformation } from "../Persistence/Model/Information";
+import { IncomingMessage } from "http";
 
 @Controller("user")
 export default class UserController extends ControllerBase {
@@ -29,23 +30,23 @@ export default class UserController extends ControllerBase {
 
     @Get("/logout")
     @Authorize
-    async Logout(ctx : ParameterizedContext) {
-        ctx.body = await Redis.PromiseSet(`${ExtractJWTStringFromHeader(ctx.header)}:Revoked`,"1",'EX', AppConfig.JWT.Expire)
+    async Logout(ctx: ParameterizedContext) {
+        ctx.body = await Redis.PromiseSet(`${ExtractJWTStringFromHeader(ctx.header)}:Revoked`, "1", 'EX', AppConfig.JWT.Expire)
     }
 
 
     @Get("/profile")
     @Authorize
-    async GetUserProfile(ctx : ParameterizedContext) {
+    async GetUserProfile(ctx: ParameterizedContext) {
         const UserID = (ctx.query.userid as string) || GetUserIDFromToken(ctx.header)
         let Profile = await UserService.GetUserProfile(parseInt(UserID))
-        ctx.body = Profile ?  { StatusCode: 0, Profile } : { StatusCode : -1 }
+        ctx.body = Profile ? { StatusCode: 0, Profile } : { StatusCode: -1 }
     }
 
     @Post("/profile")
     @Authorize
-    @Required(ParameterType.Body,[['NickName'],['Avatar'],['Signature'],['BackgroundPhoto']])
-    async UpdateUserProfile(ctx : ParameterizedContext) {
+    @Required(ParameterType.Body, [['NickName'], ['Avatar'], ['Signature'], ['BackgroundPhoto']])
+    async UpdateUserProfile(ctx: ParameterizedContext) {
         const UserID = GetUserIDFromToken(ctx.header)
         const UpdatedInformation = ctx.request.body as ChangeableInformation
         this.TrimUnchangeableFields(UpdatedInformation)
@@ -54,23 +55,78 @@ export default class UserController extends ControllerBase {
 
     @Get("/avatar")
     @Authorize
-    async GetAvatar(ctx : ParameterizedContext) {
+    async GetAvatar(ctx: ParameterizedContext) {
         const UserID = (ctx.query.userid as string) || GetUserIDFromToken(ctx.header)
-        ctx.set("Content-Type","image/png")
+        ctx.set("Content-Type", "image/png")
         ctx.body = await FileResolver.GetAvatarReadFileStream(UserID)
     }
 
     @Get("/background")
     @Authorize
-    async GetBackground(ctx : ParameterizedContext) {
+    async GetBackground(ctx: ParameterizedContext) {
         const UserID = (ctx.query.userid as string) || GetUserIDFromToken(ctx.header)
-        ctx.set("Content-Type","image/png")
+        ctx.set("Content-Type", "image/png")
         ctx.body = await FileResolver.GetBackgroundImageReadFileStream(UserID)
     }
 
+    @Post("/avatar")
+    @Authorize
+    async UploadAvatar(ctx: ParameterizedContext) {
+        if (ctx.request.headers["content-type"] === "image/png") {
+            // Try to open the pipe for image streaming
+            const UserID = GetUserIDFromToken(ctx.header)
+            const stream = FileResolver.GetAvatarWriteFileStream(UserID)
+
+            await this.UploadImage(ctx.req, stream, () => { ctx.status = 400; FileResolver.ClearAvatar(UserID);  })
+                .catch(err => { ctx.status = 400, ctx.body = err })
+                .then(finish => ctx.body = finish)
+        }
+        else {
+            ctx.status = 400 // Bad Request
+            ctx.body = "Should set `content-type` in header to `image/png`"
+        }
+    }
+
+    @Post("/background")
+    @Authorize
+    async UploadBackground(ctx: ParameterizedContext) {
+        if (ctx.request.headers["content-type"] === "image/png") {
+            // Try to open the pipe for image streaming
+            const UserID = GetUserIDFromToken(ctx.header)
+            const stream = FileResolver.GetBackgroundImageWriteFileStream(UserID)
+            await this.UploadImage(ctx.req, stream, () => { ctx.status = 400; FileResolver.ClearBackground(UserID);  })
+                .catch(err => { ctx.status = 400, ctx.body = err })
+                .then(finish => ctx.body = finish)
+        }
+        else {
+            ctx.
+                ctx.status = 400 // Bad Request
+            ctx.body = "Should set `content-type` in header to `image/png`"
+        }
+    }
+
+    UploadImage(source: IncomingMessage, destination: NodeJS.WritableStream, failed?: () => void, finished?: () => void) {
+        failed = failed || function () { }
+        finished = finished || function () { }
+
+        return new Promise((resolve, reject) => {
+            source.pipe(destination).on('error', () => {
+                failed()
+                reject({
+                    StatusCode: -2,
+                    Error: "Broken pipe."
+                })
+            }).on('close', () => {
+                finished()
+                resolve({
+                    StatusCode: 0
+                })
+            })
+        })
+    }
     TrimUnchangeableFields(info) {
         ['UserId', 'Rank'].forEach(item => {
-            if(info.hasOwnProperty(item)) {
+            if (info.hasOwnProperty(item)) {
                 delete info[item]
             }
         })
