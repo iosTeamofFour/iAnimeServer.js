@@ -1,2 +1,2 @@
 @echo off
-tsc && node dist/app.js
+tsc && node dist/src/app.js

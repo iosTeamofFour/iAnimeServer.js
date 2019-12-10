@@ -394,16 +394,20 @@
         "signature": "0b0d9fddfee0c0a09dfd5c73fa8ca86246c87d68c065ac1e08f5074cdbeccbc4"
       },
       "./src/utils/common.ts": {
-        "version": "737f5d94cc07e61a4b005c0bab2dd463e0338dbab1393f7bdb3f16e322fd01e6",
+        "version": "9e844fd1a9f8fbca590aff2087a781f7e6d9c4d9673b371f4be0855b82a2af01",
         "signature": "07b899c6d678918269dc965fbfa68c4a526c64e3a0f839a55cde60ad6d9e3f3e"
       },
+      "./app.json": {
+        "version": "fb86954483cff502c4422aaaa143129b266cae7dc6f189ff1873a318f99f6bc8",
+        "signature": "ba637977282640c0134238a9f03dfce9b533fa7177e9976d03291114b2f9d03c"
+      },
       "./src/auth.ts": {
-        "version": "f246795f30dd44a83f8d6f5bc6e3f68891a9796a40b2aaa8a365a5122723f2f6",
+        "version": "764b7803eb05df15c6a1097b9bce783eed9ff321c3a127b935bfe0a1327584cb",
         "signature": "892efe520e66e617f6d19b7d95382c18bfc27dae6cf4dfc2e05a0c4ee6f01490"
       },
       "./src/utils/decorators/parametervalidatordecorator.ts": {
         "version": "c1c1ba0db7df0fc37efe906d86fc7b4cae9ea9af1ccdae4a1556e8efd1cc2e5f",
-        "signature": "56072cd3da314246de907c987a430c98abbe0c6e776f5b47fba7cb0652700936"
+        "signature": "2a81f191b42eef74ec36003cd7648af08e4116a8e5f7fc9c46d44c66727c5d2f"
       },
       "./node_modules/reflect-metadata/index.d.ts": {
         "version": "8d6d51a5118d000ed3bfe6e1dd1335bebfff3fef23cd2af2f84a24d30f90cc90",
@@ -411,10 +415,10 @@
       },
       "./src/utils/decorators/routerdecorator.ts": {
         "version": "73f1d4b96c40515a71be8c68bed7b686444a519dca6c90ef236bd661687898dd",
-        "signature": "6d65f3f06a341ae704452e471a42c22915cf3524036e05bee0317b327eda439e"
+        "signature": "a2192d1b610b13a8f8c73180b24b75925dbbda39321b658dfd95f9cf1ebd5f02"
       },
       "./src/router-loader.ts": {
-        "version": "e67370db5bf0878fb9f8587dacc65730424bfce52492e2f35704ee3c86a22aa3",
+        "version": "caff8887df0793d1fa7e54440a8db4580c8bdb7d7e48cac37bf91d75af9e17ec",
         "signature": "b8aed4534ff0d75ea087dcfa39f8fae81cf8af90a4cf5f0e20f3e37c2b33f9f4"
       },
       "./src/app.ts": {
@@ -1029,6 +1033,10 @@
         "version": "7099aa173139a53d7be834e857f97e58cd57dde645a891572ab2acdea3858ec2",
         "signature": "b1e2a11d5b6b8705bd7e62916f868a198c7d59a5dad8b02b2a3cf0be4f746548"
       },
+      "./src/persistence/model/information.ts": {
+        "version": "9eaad6210a35341e9e45fef5fdf613c3087c8bf7a65923764c89be1613e935ed",
+        "signature": "7486fc451d027b3ee8ebc1dfe79a2af0ee895a5ecb53a829f95187c54061805c"
+      },
       "./src/model/responses.ts": {
         "version": "20efa9be4110b355afe2c8c5cd9d3444b7b6acd1f77927a505c42405dcc193e2",
         "signature": "52333fce18533d7b74de3b139c21f5f01716d428afa1b6867bc9fc6426cebe7e"
@@ -1038,12 +1046,16 @@
         "signature": "d62fa6fe33566fa743b3d6715a1a2fe46e937ba9d2ba158563c5744315d438a7"
       },
       "./src/service/user/userservice.ts": {
-        "version": "4be8a65aa985ee8de7669dfe12ec4c497ad1fdcfc59a9be3f98199047ff3eec9",
-        "signature": "a176a1a05deaee2901e8acfd9e584f346fd3d5cae1cf2428983e78872b2c287e"
+        "version": "6f42f5b08f2eff2bdf0f16d6206dec489974e31acc32e32f3aecf6292139ca76",
+        "signature": "802fde21f066cabcb6acdd877c8346237f00af9c53a9385be6d6ef7b130ee983"
+      },
+      "./src/service/config/fileresolver.ts": {
+        "version": "53b45ac987c85596c293c631cebaf8ae6545f791481f2c8040274e17e57c1b51",
+        "signature": "bae82d2f6a9e8e0c580f59e8a9080670203333069348508c0c7d6f762ca7c597"
       },
       "./src/controller/usercontroller.ts": {
-        "version": "50545d4767af48e2d4d9350981064a4d3470fcf13f68c4a4d905a94e38a315cc",
-        "signature": "2e07017fa7c73ffaed8f9621c0e03d110c8347fe04b0a53face5c3c2c79c7657"
+        "version": "cd58385f06e92e9a33f702b462ad41598dc2cb1546e3c62692e33e46cd1d152f",
+        "signature": "acb42074a3b8b866553b40d3ec19bf4933a9a9ab387876064e131332059a7f33"
       },
       "./src/persistence/model/address.ts": {
         "version": "2b4d0083e58c8d04a0aed1a84bf4aad64caeed6ac82297a9b79b83b6740836d4",
@@ -1052,10 +1064,6 @@
       "./src/persistence/model/follow.ts": {
         "version": "840613906aaa666d3a5cf914358b765720291b68d6d7d33cf1737a90d4ab012a",
         "signature": "dc364b206b97ac1d5c4e1d58511f82a7c48fc48ccf0aef29f1924e336b4e7e1a"
-      },
-      "./src/persistence/model/information.ts": {
-        "version": "8992d25261f9167d2cb131c9df1b86b58e1b9ed904c6c4826a792707a86e1cef",
-        "signature": "46e1bfcf4edef1f805e22dfdefacf9560766ad0bb3ac7db041d67cb3f048a8ac"
       },
       "./src/persistence/model/mylike.ts": {
         "version": "b044eefd943da24845164be5af380866262afff1e466044a756d7591dec94d11",
@@ -1836,12 +1844,19 @@
         "./node_modules/@types/node/util.d.ts",
         "./node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "./app.json": [
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "./src/auth.ts": [
         "./node_modules/koa-jwt/types/index.d.ts",
         "./node_modules/@types/jsonwebtoken/index.d.ts",
         "./node_modules/@types/koa/index.d.ts",
         "./src/persistence/redisconfig.ts",
         "./src/utils/common.ts",
+        "./app.json",
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
         "./node_modules/@types/node/util.d.ts",
@@ -3132,6 +3147,13 @@
         "./node_modules/@types/node/util.d.ts",
         "./node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "./src/persistence/model/information.ts": [
+        "./node_modules/sequelize-typescript/dist/index.d.ts",
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "./src/model/responses.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
@@ -3146,9 +3168,19 @@
       ],
       "./src/service/user/userservice.ts": [
         "./src/persistence/model/user.ts",
+        "./src/persistence/model/information.ts",
         "./src/model/responses.ts",
         "./src/auth.ts",
         "./node_modules/moment/moment.d.ts",
+        "./app.json",
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "./src/service/config/fileresolver.ts": [
+        "./app.json",
+        "./node_modules/@types/node/path.d.ts",
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
         "./node_modules/@types/node/util.d.ts",
@@ -3161,6 +3193,9 @@
         "./src/service/user/userservice.ts",
         "./src/persistence/redisconfig.ts",
         "./src/utils/common.ts",
+        "./src/service/config/fileresolver.ts",
+        "./app.json",
+        "./src/persistence/model/information.ts",
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
         "./node_modules/@types/node/util.d.ts",
@@ -3174,13 +3209,6 @@
         "./node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "./src/persistence/model/follow.ts": [
-        "./node_modules/sequelize-typescript/dist/index.d.ts",
-        "./node_modules/@types/node/fs.d.ts",
-        "./node_modules/@types/node/ts3.2/fs.d.ts",
-        "./node_modules/@types/node/util.d.ts",
-        "./node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "./src/persistence/model/information.ts": [
         "./node_modules/sequelize-typescript/dist/index.d.ts",
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
@@ -5235,6 +5263,9 @@
       "./src/persistence/model/user.ts": [
         "./node_modules/sequelize-typescript/dist/index.d.ts"
       ],
+      "./src/persistence/model/information.ts": [
+        "./node_modules/sequelize-typescript/dist/index.d.ts"
+      ],
       "./node_modules/moment/moment.d.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
@@ -5242,7 +5273,11 @@
         "./node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "./src/service/user/userservice.ts": [
-        "./src/model/responses.ts"
+        "./src/model/responses.ts",
+        "./src/persistence/model/information.ts"
+      ],
+      "./src/service/config/fileresolver.ts": [
+        "./node_modules/@types/node/fs.d.ts"
       ],
       "./src/controller/usercontroller.ts": [
         "./node_modules/@types/koa/index.d.ts",
@@ -5252,9 +5287,6 @@
         "./node_modules/sequelize-typescript/dist/index.d.ts"
       ],
       "./src/persistence/model/follow.ts": [
-        "./node_modules/sequelize-typescript/dist/index.d.ts"
-      ],
-      "./src/persistence/model/information.ts": [
         "./node_modules/sequelize-typescript/dist/index.d.ts"
       ],
       "./src/persistence/model/mylike.ts": [
@@ -5420,6 +5452,9 @@
       "./node_modules/@types/redis/ts3.1/index.d.ts",
       "./src/persistence/redisclientenhance.ts",
       "./src/persistence/redisconfig.ts",
+      "./src/utils/common.ts",
+      "./app.json",
+      "./src/auth.ts",
       "./src/utils/decorators/parametervalidatordecorator.ts",
       "./node_modules/reflect-metadata/index.d.ts",
       "./src/utils/decorators/routerdecorator.ts",
@@ -5577,12 +5612,12 @@
       "./node_modules/sequelize-typescript/dist/validation/validator.d.ts",
       "./node_modules/sequelize-typescript/dist/index.d.ts",
       "./src/persistence/model/user.ts",
+      "./src/persistence/model/information.ts",
       "./src/model/responses.ts",
       "./node_modules/moment/moment.d.ts",
       "./src/service/user/userservice.ts",
       "./src/persistence/model/address.ts",
       "./src/persistence/model/follow.ts",
-      "./src/persistence/model/information.ts",
       "./src/persistence/model/mylike.ts",
       "./src/persistence/model/work.ts",
       "./src/persistence/mysqlconfig.ts",
@@ -5592,9 +5627,8 @@
       "./node_modules/@types/passport/index.d.ts",
       "./node_modules/@types/passport-strategy/index.d.ts",
       "./node_modules/@types/passport-jwt/index.d.ts",
-      "./src/utils/common.ts",
-      "./src/controller/usercontroller.ts",
-      "./src/auth.ts"
+      "./src/service/config/fileresolver.ts",
+      "./src/controller/usercontroller.ts"
     ]
   },
   "version": "3.7.2"

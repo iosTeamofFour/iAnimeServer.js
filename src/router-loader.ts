@@ -17,7 +17,7 @@ function LoadRouters(app : Koa ,walkingDir : string = rootDir) {
 
   fs.readdirSync(walkingDir).forEach(fd => {
     if(fs.statSync(JoinPath(walkingDir,fd)).isDirectory()) {
-      LoadRouters(app,path.join(rootDir,fd))
+      LoadRouters(app,JoinPath(walkingDir,fd))
       return
     }
     if (!fileExtReg.test(fd)) return

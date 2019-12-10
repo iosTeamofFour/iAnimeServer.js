@@ -11,7 +11,7 @@ export function ExtractBearerFromHeader(header: any) {
 
 export function GetUserIDFromToken(header: any): string {
   const JwtObj = ExtractBearerFromHeader(header)
-  return JwtObj['payload']['user_id']
+  return JwtObj['payload']['user_id'].toString()
 }
 
 export function TryParseJSON(text: string): Promise<any> {
