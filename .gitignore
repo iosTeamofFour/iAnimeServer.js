@@ -99,3 +99,4 @@ app.json
 dist/
 app-local.json
 .tsIncrement
+statics/
