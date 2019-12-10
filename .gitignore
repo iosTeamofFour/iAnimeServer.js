@@ -97,3 +97,5 @@ typings/
 # ignore sensitive info.
 app.json
 dist/
+app-local.json
+.tsIncrement
