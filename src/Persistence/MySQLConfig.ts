@@ -5,6 +5,7 @@ import { Information } from './Model/Information'
 import { MyLike } from './Model/MyLike';
 import { User } from './Model/User'
 import { Work } from './Model/Work'
+import { FollowResponse } from '../Model/FollowResponse'
 
 const { Database: { MySQL } } = require('../../app.json')
 
@@ -22,7 +23,7 @@ const sequelize = new Sequelize(Database, UserName, Password, {
 })
 
 sequelize.addModels([
-    Address, Follow, Information, MyLike, User, Work
+    Address, Follow, Information, MyLike, User, Work, FollowResponse
 ])
 
 console.log("MySQL with sequelize is loaded!")

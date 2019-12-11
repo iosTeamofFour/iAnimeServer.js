@@ -87,7 +87,7 @@ export default class UserController extends ControllerBase {
         }
     }
 
-    @Post("/background")
+    @Post("/homepage")
     @Authorize
     async UploadBackground(ctx: ParameterizedContext) {
         if (ctx.request.headers["content-type"] === "image/png") {
@@ -102,6 +102,35 @@ export default class UserController extends ControllerBase {
             ctx.
                 ctx.status = 400 // Bad Request
             ctx.body = "Should set `content-type` in header to `image/png`"
+        }
+    }
+
+    // 我正在关注的人
+    @Get("/following")
+    @Authorize
+    async GetFollowingUser(ctx : ParameterizedContext) {
+        const UserID = GetUserIDFromToken(ctx.header)
+        ctx.body = await UserService.GetFollowingList(parseInt(UserID));
+    }
+
+    @Get("/follower")
+    @Authorize
+    async GetFollowerUser(ctx : ParameterizedContext) {
+        const UserID = GetUserIDFromToken(ctx.header)
+        ctx.body = await UserService.GetFollowerList(parseInt(UserID));
+    }
+
+    @Post("/follow")
+    @Authorize
+    @Required(ParameterType.Body,[['UserID'],['Cancel']])
+    async UpdateFollowStatus(ctx : ParameterizedContext) {
+        const { UserID, Cancel } = ctx.request.body
+        const LoginedUserID = GetUserIDFromToken(ctx.header)
+        if(Cancel) {
+            ctx.body = await UserService.UnfollowUser(parseInt(LoginedUserID), UserID)
+        }
+        else {
+            ctx.body = await UserService.FollowUser(parseInt(LoginedUserID),UserID)
         }
     }
 
