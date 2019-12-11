@@ -153,6 +153,7 @@ export default class UserController extends ControllerBase {
             })
         })
     }
+    
     TrimUnchangeableFields(info) {
         ['UserId', 'Rank'].forEach(item => {
             if (info.hasOwnProperty(item)) {
