@@ -1,7 +1,7 @@
 import AppConfig = require('../../../app.json')
 import * as _path from 'path'
 import * as fs from 'fs'
-
+import { PassThrough } from 'stream'
 const fsExist = (path: fs.PathLike) => {
     return new Promise((resolve) => {
         fs.exists(path, exist => resolve(exist))
@@ -75,4 +75,8 @@ export const GetImageReadFileStream = (Path, Placeholder) => {
     })
 }
 
-
+export const GetWorkImageReadFileStream = (WorkId : number, FileName : string) => {
+    const Path = _path.join(AppConfig.Statics.Works,WorkId.toString(),FileName)
+    if(!fs.existsSync(Path)) return null
+    return fs.createReadStream(Path)
+}

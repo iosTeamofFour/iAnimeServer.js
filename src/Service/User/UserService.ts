@@ -27,8 +27,7 @@ async function Login(phone: string, password: string): Promise<BaseResponse> {
 async function Register(phone: string, password: string): Promise<BaseResponse> {
     return await User.findOrCreate({
         where: {
-            Phone: phone,
-            Password: password
+            Phone: phone
         },
         defaults: { Phone: phone, Password: password }
     })
