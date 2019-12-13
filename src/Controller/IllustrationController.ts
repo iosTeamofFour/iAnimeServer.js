@@ -6,6 +6,7 @@ import * as IllustrationProcessService from '../Service/Illustration/Illustratio
 import { ReadStream } from 'fs';
 import { GetUserIDFromToken } from '../Utils/Common';
 import { WorkUploadRequest } from '../Persistence/Model/Work';
+import moment = require('moment');
 
 
 
@@ -88,16 +89,15 @@ export default class IllustrationController extends ControllerBase {
     @Authorize
     @Required(ParameterType.Body,[
         ['name'],
-        ['created'],
         ['description'],
         ['tags'],
         ['allow_download'],['allow_sketch'],['allow_fork'],['receipt']])
     async UploadNewWork(ctx : ParameterizedContext) {
-        const { name, created, description, tags, allow_download, allow_sketch, allow_fork, receipt } = ctx.request.body
+        const { name, description, tags, allow_download, allow_sketch, allow_fork, receipt } = ctx.request.body
         const UserID = GetUserIDFromToken(ctx.header)
         const WorkForUpload : WorkUploadRequest = {
             Name : name,
-            CreatedAt : created,
+            CreatedAt : moment().unix(),
             Description:description,
             AllowDownload : allow_download,
             AllowSketch:allow_sketch,

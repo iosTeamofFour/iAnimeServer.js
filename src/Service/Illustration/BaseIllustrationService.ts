@@ -164,15 +164,18 @@ export async function UploadOneWork(WorkInfo : WorkUploadRequest) {
                 }
             })
             .then(async ([task, sketch, colorized]) => {
-                const sketchFinalPath = FileResolver.GenerateWorkExistsFilePath(WorkImageType.Sketch,WorkInfo.ArtistId,sketch)
-                const colorizedFinalPath = FileResolver.GenerateWorkExistsFilePath(WorkImageType.Colorization,WorkInfo.ArtistId,colorized)
+                const sketchFinalPath = FileResolver.GenerateWorkExistsFilePath(WorkImageType.Sketch,WorkInfo.ArtistId,task.OriginalSketchFile)
+                const colorizedFinalPath = FileResolver.GenerateWorkExistsFilePath(WorkImageType.Colorization,WorkInfo.ArtistId,task.ColorizedFile)
                 
                 await copyFileAsync(sketch,sketchFinalPath)
                 await copyFileAsync(colorized,colorizedFinalPath)
-            }, InvalidTask => ({ StatusCode : -3 }))
+            })
             .then(async () => {
                 await Work.create({ ...WorkInfo })
-            }, IOError => ({ StatusCode : -2 }))
-            .thenReturn({ StatusCode : 0})
-            .catchReturn({ StatusCode : -1 })
+            })
+            .thenReturn({ StatusCode : 0 })
+            .catch(err => {
+                if(err.errno === -4058) return { StatusCode: -2 }
+                else if (err instanceof Error ) return { StatusCode: -1 }
+            } )
 }
