@@ -20,11 +20,17 @@ export enum WorkImageType {
     Colorization = 'colorization'
 }
 
+const InfoItemFilter = (type : WorkInformationType, Prefix : string) =>  type === WorkInformationType.Home ? `${Prefix}.id, ${Prefix}.name, ${Prefix}.artist` : `${Prefix}.*`
+
 export async function GetWorkInformation(WorkId: number, Type: WorkInformationType) {
-    const sql = `select ${Type === WorkInformationType.Home ? 'w.id, w.name, w.artist' : 'w.*'}, i.nick_name as artist_name from work w left join information i on artist = i.user_id and id = ?`
+    const sql = `select ${InfoItemFilter(Type, 'w')}, i.nick_name as artist_name from work w left join information i on artist = i.user_id and id = ?`
     return await seq.query({ query: sql, values: [WorkId] }, { mapToModel: true, model: Work })
 }
 
+export async function GetMyLikeWorks(UserID : number, Start : number, Count : number, Type : WorkInformationType) {
+    const sql = `select ${InfoItemFilter(Type, 'w')} from my_like left join work w on w.id = work_id where user_id = ? order by w.created desc LIMIT ${Start},${Count} ;`
+    return await seq.query({ query : sql, values: [UserID]}, { mapToModel : true, model : Work })
+}
 
 export async function GetWorkImage(WorkId: number, ScaleType: WorkImageSizeType, ImageType: WorkImageType) {
     const image = await Illustrations.findOne({ where: { Id: WorkId } })
@@ -36,19 +42,19 @@ export async function GetWorkImage(WorkId: number, ScaleType: WorkImageSizeType,
     try {
         if (ScaleType === WorkImageSizeType.Mid) {
             if (ImageType === WorkImageType.Sketch && image.SketchImageMid)
-                return FileResolver.GetWorkImageReadFileStream(WorkId, image.SketchImageMid)
+                return FileResolver.GetWorkImageReadFileStream(WorkId, ImageType, image.SketchImageMid)
             else if (ImageType === WorkImageType.Colorization && image.ColorizationImageMid)
-                return FileResolver.GetWorkImageReadFileStream(WorkId, image.ColorizationImageMid)
+                return FileResolver.GetWorkImageReadFileStream(WorkId, ImageType, image.ColorizationImageMid)
             else
                 return {
                     StatusCode: -1
                 }
         }
         else if (ScaleType === WorkImageSizeType.Origin) {
-            if (ImageType === WorkImageType.Sketch && image.SketchImageMid)
-                return FileResolver.GetWorkImageReadFileStream(WorkId, image.SketchImage)
+            if (ImageType === WorkImageType.Sketch && image.SketchImage)
+                return FileResolver.GetWorkImageReadFileStream(WorkId, ImageType, image.SketchImage)
             else if (ImageType === WorkImageType.Colorization && image.ColorizationImage)
-                return FileResolver.GetWorkImageReadFileStream(WorkId, image.ColorizationImage)
+                return FileResolver.GetWorkImageReadFileStream(WorkId, ImageType, image.ColorizationImage)
             else
                 return {
                     StatusCode: -1

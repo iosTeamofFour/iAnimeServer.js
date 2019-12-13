@@ -22,7 +22,7 @@ export default class IllustrationController extends ControllerBase {
         const Size = ((ctx.query['size'] || '').match(/^(origin|mid)$/) || ['origin'])[0]
         const ImageType = ((ctx.query['type'] || '').match(/^(sketch|colorization)$/) || ['colorization'])[0]
         const { id } = ctx.query
-        const stream = BaseIllustrationService.GetWorkImage(id, Size, ImageType)
+        const stream = await BaseIllustrationService.GetWorkImage(id, Size, ImageType)
         if (stream instanceof ReadStream) {
             ctx.set("Content-Type", "image/png")
         }
@@ -38,10 +38,10 @@ export default class IllustrationController extends ControllerBase {
                                           ['type', (type) => /^(home|detail)$/.test(type)]])
     async GetMyLikeWorks(ctx: ParameterizedContext) {
         const { userid, start, count, type } = ctx.query
-        
+        ctx.body = await BaseIllustrationService.GetMyLikeWorks(userid, start, count, type)
     }
 }
 
 function TestNumber(ShouldBeNumber : string) {
-    return /^[1-9][0-9]*$/.test(ShouldBeNumber)
+    return /^[0-9][0-9]*$/.test(ShouldBeNumber)
 }

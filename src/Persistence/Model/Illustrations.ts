@@ -15,7 +15,7 @@ export class Illustrations extends Model<Illustrations> {
     @Column({ field: 'points', type: DataType.STRING })
     PointsJson: string
 
-    @Column({ field: 'skectch_mid', type: DataType.STRING })
+    @Column({ field: 'sketch_mid', type: DataType.STRING })
     SketchImageMid: string
 
     @Column({ field: 'colorization_mid', type: DataType.STRING })
