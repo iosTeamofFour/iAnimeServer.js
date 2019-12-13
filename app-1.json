@@ -20,6 +20,7 @@
         "Avatar": "./statics/avatars",
         "Background": "./statics/backgrounds",
         "Works": "./statics/works",
+        "Tasks":"./statics/tasks",
         "AvatarPlaceholder": "./statics/avatars/avatar-placeholder.png",
         "BackgroundPlaceholder": "./statics/backgrounds/background-placeholder.png"
     }

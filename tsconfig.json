@@ -14,7 +14,7 @@
         "tsBuildInfoFile": ".tsIncrement"
     },
     "include": [
-        "src/**/*"
+        "src/**/*", "ReadBase64.js"
     ],
     "exclude": [
         "node_modules",

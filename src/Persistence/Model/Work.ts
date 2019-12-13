@@ -10,9 +10,6 @@ export class Work extends Model<Work> {
     @Column({ field : 'artist', primaryKey : true, type: DataType.NUMBER})
     ArtistId : number
 
-    @Column({ field : 'artist_name', type: DataType.STRING})
-    ArtistName : string
-
     @Column({ field : 'name', type: DataType.STRING})
     Name : string
 
@@ -36,4 +33,15 @@ export class Work extends Model<Work> {
 
     @Column({ field : 'allow_fork', type : DataType.BOOLEAN })
     AllowFork : boolean
+}
+
+export interface WorkUploadRequest {
+    ArtistId : number
+    Name : string
+    CreatedAt : number
+    Description : string
+    AllowDownload : boolean
+    AllowSketch : boolean
+    AllowFork : boolean
+    Receipt : string
 }
