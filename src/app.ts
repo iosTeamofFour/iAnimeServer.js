@@ -15,7 +15,11 @@ app.use(async (ctx, next) => {
     console.log(`${ctx.method} => ${ctx.url}, HTTP ${ctx.status}`)
 })
 
-app.use(bodyParser())
+app.use(bodyParser({
+    formLimit:"10mb",
+    jsonLimit:"10mb",
+    textLimit:"10mb"
+}))
 app.use(cors())
 
 // Global error handler:

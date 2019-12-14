@@ -4,11 +4,14 @@ import { Table, Column, DataType, Model } from 'sequelize-typescript'
 export class Work extends Model<Work> {
 
 
-    @Column({ field : 'id', primaryKey : true, type: DataType.NUMBER})
+    @Column({ field : 'id', primaryKey : true, autoIncrement:true, type: DataType.NUMBER})
     Id : number
 
     @Column({ field : 'artist', primaryKey : true, type: DataType.NUMBER})
     ArtistId : number
+
+    @Column({ field : 'artist_name', type: DataType.STRING})
+    ArtistName : number
 
     @Column({ field : 'name', type: DataType.STRING})
     Name : string

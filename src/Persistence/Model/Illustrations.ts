@@ -6,6 +6,9 @@ export class Illustrations extends Model<Illustrations> {
     @Column({ primaryKey: true, field: 'id', type: DataType.NUMBER })
     Id: number
 
+    @Column({ field : 'artist', type: DataType.NUMBER})
+    ArtistId : number
+
     @Column({ field: 'sketch', type: DataType.STRING })
     SketchImage: string
 

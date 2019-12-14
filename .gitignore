@@ -100,3 +100,4 @@ dist/
 app-local.json
 .tsIncrement
 statics/**/*
+Helper/

@@ -1,0 +1,78 @@
+                .
+├── AllFilesForBackend.txt
+├── LICENSE
+├── app-1.json
+├── app.json
+├── base.txt
+├── clear.bat
+├── package-lock.json
+├── package.json
+├── run.bat
+├── src
+│   ├── Controller
+│   │   ├── IllustrationController.ts
+│   │   └── UserController.ts
+│   ├── Model
+│   │   ├── FollowResponse.ts
+│   │   └── Responses.ts
+│   ├── Persistence
+│   │   ├── Model
+│   │   │   ├── Address.ts
+│   │   │   ├── Follow.ts
+│   │   │   ├── Illustrations.ts
+│   │   │   ├── Information.ts
+│   │   │   ├── MyLike.ts
+│   │   │   ├── TaskPool.ts
+│   │   │   ├── User.ts
+│   │   │   └── Work.ts
+│   │   ├── MySQLConfig.ts
+│   │   ├── RedisClientEnhance.ts
+│   │   └── RedisConfig.ts
+│   ├── Service
+│   │   ├── Config
+│   │   │   └── FileResolver.ts
+│   │   ├── Illustration
+│   │   │   ├── BaseIllustrationService.ts
+│   │   │   └── IllustrationProcessService.ts
+│   │   ├── MQ
+│   │   └── User
+│   │       └── UserService.ts
+│   ├── Utils
+│   │   ├── Common.ts
+│   │   └── Decorators
+│   │       ├── ParameterValidatorDecorator.ts
+│   │       └── RouterDecorator.ts
+│   ├── app.ts
+│   ├── auth.ts
+│   └── router-loader.ts
+├── statics
+│   ├── avatars
+│   │   ├── 1
+│   │   │   └── avatar.png
+│   │   ├── 8
+│   │   │   └── avatar.png
+│   │   └── avatar-placeholder.png
+│   ├── backgrounds
+│   │   ├── background-placeholder.png
+│   │   └── background-placeholder.psd
+│   ├── tasks
+│   │   ├── colorization
+│   │   │   └── f104b760-1dac-11ea-8efe-bffab63c8f3b.png
+│   │   ├── points
+│   │   │   └── f1050580-1dac-11ea-8efe-bffab63c8f3b.json
+│   │   └── sketch
+│   │       └── f104b760-1dac-11ea-8efe-bffab63c8f3b.png
+│   └── works
+│       ├── 1
+│       │   ├── colorization
+│       │   │   ├── abcde.png
+│       │   │   └── f104b760-1dac-11ea-8efe-bffab63c8f3b.png
+│       │   ├── points
+│       │   └── sketch
+│       │       ├── aabbc.png
+│       │       └── f104b760-1dac-11ea-8efe-bffab63c8f3b.png
+│       └── 8
+│           ├── colorization
+│           ├── points
+│           └── sketch
+└── tsconfig.json

@@ -30,10 +30,10 @@ export enum WorkImageType {
 
 
 
-const InfoItemFilter = (type : WorkInformationType, Prefix : string) =>  type === WorkInformationType.Home ? `${Prefix}.id, ${Prefix}.name, ${Prefix}.artist` : `${Prefix}.*`
+const InfoItemFilter = (type: WorkInformationType, Prefix: string) => type === WorkInformationType.Home ? `${Prefix}.id, ${Prefix}.name, ${Prefix}.artist` : `${Prefix}.*`
 
 export async function GetWorkInformationByUserID(UserID: number, Type: WorkInformationType) {
-    const sql = `select ${InfoItemFilter(Type, 'w')}, i.nick_name as artist_name from work w left join information i on w.artist = i.user_id where i.user_id = ?`
+    const sql = `select ${InfoItemFilter(Type, 'w')}, i.nick_name as artist_name from work w left join information i on w.artist = i.user_id where i.user_id = ? order by w.created desc`
     return await seq.query({ query: sql, values: [UserID] }, { mapToModel: true, model: Work })
 }
 
@@ -42,9 +42,9 @@ export async function GetWorkInformationByWorkID(WorkID: number, Type: WorkInfor
     return await seq.query({ query: sql, values: [WorkID] }, { mapToModel: true, model: Work })
 }
 
-export async function GetMyLikeWorks(UserID : number, Start : number, Count : number, Type : WorkInformationType) {
+export async function GetMyLikeWorks(UserID: number, Start: number, Count: number, Type: WorkInformationType) {
     const sql = `select ${InfoItemFilter(Type, 'w')} from my_like left join work w on w.id = work_id where user_id = ? order by w.created desc LIMIT ${Start},${Count} ;`
-    return await seq.query({ query : sql, values: [UserID]}, { mapToModel : true, model : Work })
+    return await seq.query({ query: sql, values: [UserID] }, { mapToModel: true, model: Work })
 }
 
 
@@ -58,9 +58,9 @@ export async function GetWorkImage(WorkId: number, ScaleType: WorkImageSizeType,
     try {
         if (ScaleType === WorkImageSizeType.Mid) {
             if (ImageType === WorkImageType.Sketch && image.SketchImageMid)
-                return FileResolver.GetWorkImageReadFileStream(WorkId, ImageType, image.SketchImageMid)
+                return FileResolver.GetWorkImageReadFileStream(image.ArtistId, ImageType, image.SketchImageMid)
             else if (ImageType === WorkImageType.Colorization && image.ColorizationImageMid)
-                return FileResolver.GetWorkImageReadFileStream(WorkId, ImageType, image.ColorizationImageMid)
+                return FileResolver.GetWorkImageReadFileStream(image.ArtistId, ImageType, image.ColorizationImageMid)
             else
                 return {
                     StatusCode: -1
@@ -68,9 +68,9 @@ export async function GetWorkImage(WorkId: number, ScaleType: WorkImageSizeType,
         }
         else if (ScaleType === WorkImageSizeType.Origin) {
             if (ImageType === WorkImageType.Sketch && image.SketchImage)
-                return FileResolver.GetWorkImageReadFileStream(WorkId, ImageType, image.SketchImage)
+                return FileResolver.GetWorkImageReadFileStream(image.ArtistId, ImageType, image.SketchImage)
             else if (ImageType === WorkImageType.Colorization && image.ColorizationImage)
-                return FileResolver.GetWorkImageReadFileStream(WorkId, ImageType, image.ColorizationImage)
+                return FileResolver.GetWorkImageReadFileStream(image.ArtistId, ImageType, image.ColorizationImage)
             else
                 return {
                     StatusCode: -1
@@ -140,7 +140,7 @@ export async function UnLikeOneWork(UserID: number, WantToUnLikeWorkID: number) 
 }
 
 
-export async function UploadOneWork(WorkInfo : WorkUploadRequest) {
+export async function UploadOneWork(WorkInfo: WorkUploadRequest) {
 
     /*
         分几步上传作品:
@@ -150,32 +150,50 @@ export async function UploadOneWork(WorkInfo : WorkUploadRequest) {
         4. 插数据库
         5. 告知成功
     */
+    let transaction = await seq.transaction()
+    return await TaskPool.findOne({ where: { Receipt: WorkInfo.Receipt } })
+        .then(async task => {
+            if (!task) throw Error("Invalid Task.")
+            const sketchPath = FileResolver.GenerateTaskExistsFilePath(WorkImageType.Sketch, task.OriginalSketchFile)
+            const colorizedPath = FileResolver.GenerateTaskExistsFilePath(WorkImageType.Colorization, task.ColorizedFile)
+            if (await existsAsync(sketchPath) && await existsAsync(colorizedPath)) {
+                return [task, sketchPath, colorizedPath] as [TaskPool, string, string]
+            }
+            else {
+                throw Error("No such sketch file and colorized file.")
+            }
+        })
+        .then(async ([task, sketch, colorized]) => {
+            const sketchFinalPath = FileResolver.GenerateWorkExistsFilePath(WorkImageType.Sketch, WorkInfo.ArtistId, task.OriginalSketchFile)
+            const colorizedFinalPath = FileResolver.GenerateWorkExistsFilePath(WorkImageType.Colorization, WorkInfo.ArtistId, task.ColorizedFile)
 
-    return await TaskPool.findOne({ where : { Receipt : WorkInfo.Receipt }})
-            .then(async task => {
-                if(!task) throw Error("Invalid Task.")
-                const sketchPath = FileResolver.GenerateTaskExistsFilePath(WorkImageType.Sketch, task.OriginalSketchFile)
-                const colorizedPath = FileResolver.GenerateTaskExistsFilePath(WorkImageType.Colorization,task.ColorizedFile)
-                if(await existsAsync(sketchPath) && await existsAsync(colorizedPath)) {
-                    return [task, sketchPath, colorizedPath] as [TaskPool, string, string]
-                }
-                else {
-                    throw Error("No such sketch file and colorized file.")
-                }
-            })
-            .then(async ([task, sketch, colorized]) => {
-                const sketchFinalPath = FileResolver.GenerateWorkExistsFilePath(WorkImageType.Sketch,WorkInfo.ArtistId,task.OriginalSketchFile)
-                const colorizedFinalPath = FileResolver.GenerateWorkExistsFilePath(WorkImageType.Colorization,WorkInfo.ArtistId,task.ColorizedFile)
-                
-                await copyFileAsync(sketch,sketchFinalPath)
-                await copyFileAsync(colorized,colorizedFinalPath)
-            })
-            .then(async () => {
-                await Work.create({ ...WorkInfo })
-            })
-            .thenReturn({ StatusCode : 0 })
-            .catch(err => {
-                if(err.errno === -4058) return { StatusCode: -2 }
-                else if (err instanceof Error ) return { StatusCode: -1 }
-            } )
+            await copyFileAsync(sketch, sketchFinalPath)
+            await copyFileAsync(colorized, colorizedFinalPath)
+            return task
+        })
+        .then(async (task) => {
+            const work = await Work.create({ ...WorkInfo }, { transaction: transaction })
+            const illu = await Illustrations.create({
+                Id: work.Id,
+                ArtistId: work.ArtistId,
+                SketchImage: task.OriginalSketchFile,
+                ColorizationImage: task.ColorizedFile,
+                PointsJson: `${task.Receipt}.json`
+            },
+            { transaction: transaction })
+            if (work && illu) {
+                transaction.commit()
+            }
+            else {
+                transaction.rollback()
+                throw Error("DB Write Error.")
+            }
+            return work
+        })
+        .then(work => ({ StatusCode:0 , Id: work.Id }))
+        .catch(err => {
+            console.log(err)
+            if (err.errno === -4058) return { StatusCode: -2 }
+            else if (err instanceof Error) return { StatusCode: -1 }
+        })
 }
