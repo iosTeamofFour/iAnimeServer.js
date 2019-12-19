@@ -78,7 +78,7 @@ export default class IllustrationController extends ControllerBase {
     // 提交上色请求
     @Post("/colorization")
     @Authorize
-    @Required(ParameterType.Body,[['image'],['points', pointArr => pointArr instanceof Array]])
+    // @Required(ParameterType.Body,[['image'],['points', pointArr => pointArr instanceof Array]])
     async RequestColorization(ctx : ParameterizedContext) {
         const { image, points } = ctx.request.body
         ctx.body = await IllustrationProcessService.SaveSketchForFurtherColorization(image,points)

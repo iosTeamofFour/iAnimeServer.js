@@ -87,7 +87,7 @@ export async function SaveSketchForFurtherColorization(ImageBase64String: string
         console.log("Upsert Result:", UpsertResult)
 
         return {
-            StausCode: 0,
+            StatusCode: 0,
             Receipt: GeneratedReceipt
         }
     }

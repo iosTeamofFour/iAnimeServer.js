@@ -16,9 +16,9 @@ app.use(async (ctx, next) => {
 })
 
 app.use(bodyParser({
-    formLimit:"10mb",
-    jsonLimit:"10mb",
-    textLimit:"10mb"
+    formLimit: "10mb",
+    jsonLimit: "10mb",
+    textLimit: "10mb"
 }))
 app.use(cors())
 
@@ -39,8 +39,8 @@ app.use(async (ctx, next) => {
 
 LoadRouters(app)
 
-const PORT = process.argv.slice(2)[0] || 3000
+const PORT = (process.argv.slice(2)[0] || 3000) as number
 console.log(`Listening on ${PORT}...`)
-app.listen(PORT)
+app.listen(3000,"0.0.0.0")
 
 
